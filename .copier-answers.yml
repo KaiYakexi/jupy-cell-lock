@@ -1,0 +1,14 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v4.3.8
+_src_path: https://github.com/jupyterlab/extension-template
+author_email: kai.s.yakexi@gmail.com
+author_name: Kaimao Sheng
+has_binder: true
+has_settings: false
+kind: frontend
+labextension_name: cell-lock
+project_short_description: A JupyterLab extension for cell lock.
+python_name: cell_lock
+repository: https://github.com/KaiYakexi/JupyterAI-ext.git
+test: true
+
