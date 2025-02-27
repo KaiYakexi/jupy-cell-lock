@@ -4,7 +4,8 @@ import {
 } from '@jupyterlab/application';
 import {
   INotebookTracker
-} from '@jupyterlab/notebook'
+} from '@jupyterlab/notebook';
+
 /**
  * Initialization data for the cell-lock extension.
  */
@@ -49,6 +50,38 @@ const plugin: JupyterFrontEndPlugin<void> = {
       },
       label: 'Duplicate Cell Below',
       isEnabled: () => false, 
+    });
+
+    // Inject a global CSS rule to hide the footer
+    const style = document.createElement('style');
+    style.textContent = `
+      .jp-Notebook-footer {
+        display: none !important;
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Use MutationObserver to ensure the footer stays hidden
+    notebookTracker.widgetAdded.connect((sender, notebookPanel) => {
+      const notebook = notebookPanel.content;
+
+      // Function to hide the footer
+      const hideFooter = () => {
+        const notebookFooter = notebook.node.querySelector('.jp-Notebook-footer');
+        if (notebookFooter) {
+          (notebookFooter as HTMLElement).style.display = 'none';
+        }
+      };
+      const observer = new MutationObserver((mutations) => {
+        hideFooter();
+      });
+
+      observer.observe(notebook.node, {
+        childList: true,
+        subtree: true,
+      });
+
+      hideFooter();
     });
   }
 };
